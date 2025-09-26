@@ -57,10 +57,8 @@ const transporter = nodemailer.createTransport({
 });
 
 // ================================
-// Endpoints
+// Endpoint: criar reserva + enviar e-mail
 // ================================
-
-// Criar reserva + enviar e-mail
 app.post("/reserva", async (req, res) => {
   try {
     const { nome, email, partida, destino, data } = req.body;
@@ -86,7 +84,9 @@ app.post("/reserva", async (req, res) => {
   }
 });
 
-// Checkout Stripe
+// ================================
+// Endpoint: checkout Stripe
+// ================================
 app.post("/checkout", async (req, res) => {
   try {
     const { valor, nome, email } = req.body;
@@ -120,7 +120,9 @@ app.post("/checkout", async (req, res) => {
   }
 });
 
-// Visualizar reservas
+// ================================
+// Endpoint: visualizar reservas
+// ================================
 app.get("/ver-reservas", async (req, res) => {
   try {
     const reservas = await reservasCollection.find().toArray();
@@ -131,7 +133,9 @@ app.get("/ver-reservas", async (req, res) => {
   }
 });
 
-// Teste conexão MongoDB
+// ================================
+// Endpoint: teste conexão MongoDB
+// ================================
 app.get("/teste-mongo", async (req, res) => {
   try {
     const count = await reservasCollection.countDocuments();
@@ -140,13 +144,6 @@ app.get("/teste-mongo", async (req, res) => {
     console.error("❌ Erro na conexão com o MongoDB:", err);
     res.status(500).json({ error: "Erro na conexão com o MongoDB", detalhes: err.message });
   }
-});
-
-// ================================
-// Rota raiz: serve index.html
-// ================================
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // ================================
